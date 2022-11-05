@@ -21,4 +21,22 @@ with open('recipy.txt', encoding='utf8') as file:
         cook_book[dish_name] = dish_list
         file.readline()
 
-pprint(cook_book)
+def get_shop_list_by_dishes(dishes, person_count):
+    result = {}
+    for dish in dishes:
+        for ingr_dict in cook_book[dish]:
+            ingredient_name = ingr_dict['ingredient_name']
+            ingredient_quantity = ingr_dict['quantity']
+            total_quantity = person_count * ingredient_quantity
+            if ingredient_name in result:
+                result[ingredient_name]['quantity'] += total_quantity
+            else:
+                product_dict = {
+                    'measure': ingr_dict['measure'],
+                    'quantity': total_quantity
+                }
+                result[ingredient_name] = product_dict
+    return result
+
+
+pprint(get_shop_list_by_dishes(['Запеченный картофель', 'Омлет', 'Фахитос'], 2))
